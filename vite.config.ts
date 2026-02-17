@@ -2,21 +2,13 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(() => {
-  return {
-    base: "/Rental-Car-Website/",
-
-    server: {
-      port: 3000,
-      host: '0.0.0.0',
+export default defineConfig({
+  // This is the most important line for GitHub Pages
+  base: "/Rental-Car-Website/",
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-    plugins: [react()],
-    define: {},
-
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, '.'),
-      }
-    }
-  };
+  },
 });

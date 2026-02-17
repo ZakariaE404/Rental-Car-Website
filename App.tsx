@@ -19,7 +19,6 @@ import { LanguageProvider } from './context/LanguageContext';
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<'home' | 'vehicles' | 'about' | 'blog' | 'contact'>('home');
 
-  // Scroll to top when page changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
