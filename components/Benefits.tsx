@@ -3,7 +3,11 @@ import React from 'react';
 
 import { useLanguage } from '../context/LanguageContext';
 
-const Benefits: React.FC = () => {
+interface BenefitsProps {
+  onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact') => void;
+}
+
+const Benefits: React.FC<BenefitsProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
   const rawList = t<any>('benefits.list');
   const benefitsList = Array.isArray(rawList) ? rawList : [];
@@ -87,14 +91,14 @@ const Benefits: React.FC = () => {
           <div className="relative z-10">
             <h3 className="text-xl md:text-4xl font-bold text-white mb-4 md:mb-6">{t('benefits.ctaTitle')}</h3>
             <p className="text-blue-100 text-sm md:text-lg mb-8 md:mb-10 max-w-xl mx-auto">
-              Réservez votre véhicule dès aujourd'hui partout au Maroc.
+              {t('benefits.ctaDesc')}
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
-              <button className="px-6 py-3 md:px-10 md:py-4 bg-amber-500 hover:bg-amber-600 text-blue-950 font-bold text-sm md:text-lg rounded-xl md:rounded-2xl shadow-xl transition-all active:scale-95">
-                Contactez-nous
+              <button onClick={() => onNavigate('contact')} className="px-6 py-3 md:px-10 md:py-4 bg-amber-500 hover:bg-amber-600 text-blue-950 font-bold text-sm md:text-lg rounded-xl md:rounded-2xl shadow-xl transition-all active:scale-95">
+                {t('benefits.contactBtn')}
               </button>
-              <button className="px-6 py-3 md:px-10 md:py-4 bg-transparent border-2 border-white/20 hover:bg-white/10 text-white font-bold text-sm md:text-lg rounded-xl md:rounded-2xl transition-all">
-                Nos tarifs
+              <button onClick={() => onNavigate('vehicles')} className="px-6 py-3 md:px-10 md:py-4 bg-transparent border-2 border-white/20 hover:bg-white/10 text-white font-bold text-sm md:text-lg rounded-xl md:rounded-2xl transition-all">
+                {t('benefits.ratesBtn')}
               </button>
             </div>
           </div>

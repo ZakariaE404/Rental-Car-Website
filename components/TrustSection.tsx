@@ -1,7 +1,11 @@
 import { useLanguage } from '../context/LanguageContext';
 import React from 'react';
 
-const TrustSection: React.FC = () => {
+interface TrustSectionProps {
+  onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact') => void;
+}
+
+const TrustSection: React.FC<TrustSectionProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
   const trustPoints = t<string[]>('trust.points');
   const testimonials = t<Array<{ name: string; location: string; text: string; stars?: number; initials?: string }>>('trust.testimonials');
@@ -98,7 +102,7 @@ const TrustSection: React.FC = () => {
             </div>
 
             <div className="mt-10 flex justify-center lg:justify-start">
-              <button className="flex items-center gap-2 px-8 py-3 rounded-full border-2 border-blue-900 text-blue-900 font-bold hover:bg-blue-900 hover:text-white transition-all group">
+              <button onClick={() => onNavigate('vehicles')} className="flex items-center gap-2 px-8 py-3 rounded-full border-2 border-blue-900 text-blue-900 font-bold hover:bg-blue-900 hover:text-white transition-all group">
                 {t('trust.viewReviews')}
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-hover:translate-x-1 transition-transform">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />

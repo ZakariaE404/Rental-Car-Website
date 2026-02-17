@@ -3,7 +3,11 @@ import React from 'react';
 
 import { useLanguage } from '../context/LanguageContext';
 
-const CityNetwork: React.FC = () => {
+interface CityNetworkProps {
+  onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact') => void;
+}
+
+const CityNetwork: React.FC<CityNetworkProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
   const featuredCities = t<Array<{ name: string; image: string; description: string }>>('cities.featured');
   // Add images to the featuredCities from translations since translations don't have images
@@ -89,7 +93,7 @@ const CityNetwork: React.FC = () => {
               <p className="text-slate-500 font-light text-xs md:text-sm leading-relaxed mb-6">
                 {t('cities.otherCitiesDesc')}
               </p>
-              <button className="px-6 py-2.5 md:px-8 md:py-3 bg-blue-900 text-white text-xs md:text-base font-bold rounded-xl md:rounded-2xl hover:bg-amber-500 transition-all shadow-lg">
+              <button onClick={() => onNavigate('vehicles')} className="px-6 py-2.5 md:px-8 md:py-3 bg-blue-900 text-white text-xs md:text-base font-bold rounded-xl md:rounded-2xl hover:bg-amber-500 transition-all shadow-lg">
                 {t('cities.bookButton')}
               </button>
             </div>

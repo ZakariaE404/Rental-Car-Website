@@ -3,7 +3,11 @@ import React from 'react';
 import Marquee from './Marquee';
 import { useLanguage } from '../context/LanguageContext';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact') => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
 
   return (
@@ -39,11 +43,11 @@ const Hero: React.FC = () => {
           </p>
 
           <div className="flex flex-wrap gap-5">
-            <button className="group relative px-10 py-5 bg-amber-500 overflow-hidden text-blue-950 font-black text-lg rounded-2xl shadow-[0_20px_40px_rgba(245,158,11,0.2)] transition-all hover:scale-105 active:scale-95">
+            <button onClick={() => onNavigate('vehicles')} className="group relative px-10 py-5 bg-amber-500 overflow-hidden text-blue-950 font-black text-lg rounded-2xl shadow-[0_20px_40px_rgba(245,158,11,0.2)] transition-all hover:scale-105 active:scale-95">
               <span className="relative z-10">{t('hero.search')}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
             </button>
-            <button className="px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 backdrop-blur-xl font-bold text-lg rounded-2xl transition-all hover:border-amber-500/50">
+            <button onClick={() => onNavigate('about')} className="px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 backdrop-blur-xl font-bold text-lg rounded-2xl transition-all hover:border-amber-500/50">
               {t('hero.agency')}
             </button>
           </div>

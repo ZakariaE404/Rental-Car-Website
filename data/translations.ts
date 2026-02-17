@@ -7,7 +7,8 @@ export const translations = {
             about: "À Propos",
             blog: "Blog",
             contact: "Contact",
-            cities: "Villes"
+            cities: "Villes",
+            rentCar: "Location de voitures"
         },
         hero: {
             title: "Location de voitures au Maroc",
@@ -109,7 +110,7 @@ export const translations = {
             ],
             sealTitle: "Garantie Satisfaction",
             sealDesc: "100% Service de Qualité",
-            viewReviews: "Voir tous les avis",
+            viewReviews: "Réserver une voiture",
             testimonials: [
                 { name: "Karim M.", location: "Casablanca", text: "Excellent service à Casablanca, voiture propre et remise à l'aéroport. Je recommande vivement VINCI pour leur professionnalisme !" },
                 { name: "Samira L.", location: "Marrakech", text: "J'ai loué une Hyundai Tucson pour un voyage en famille à Marrakech. Voiture impeccable et prix très compétitif par rapport aux autres agences." },
@@ -337,7 +338,8 @@ export const translations = {
             about: "About Us",
             blog: "Blog",
             contact: "Contact",
-            cities: "Cities"
+            cities: "Cities",
+            rentCar: "Car Rental"
         },
         hero: {
             title: "Car Rental in Morocco",
@@ -439,7 +441,7 @@ export const translations = {
             ],
             sealTitle: "Satisfaction Guarantee",
             sealDesc: "100% Quality Service",
-            viewReviews: "View all reviews",
+            viewReviews: "Book a Car",
             testimonials: [
                 { name: "Karim M.", location: "Casablanca", text: "Excellent service in Casablanca, clean car and delivered to the airport. I highly recommend VINCI for their professionalism!" },
                 { name: "Samira L.", location: "Marrakech", text: "I rented a Hyundai Tucson for a family trip to Marrakech. Impeccable car and very competitive price compared to other agencies." },
@@ -667,7 +669,8 @@ export const translations = {
             about: "Nosotros",
             blog: "Blog",
             contact: "Contacto",
-            cities: "Ciudades"
+            cities: "Ciudades",
+            rentCar: "Alquiler de coches"
         },
         hero: {
             title: "Alquiler de Coches en Marruecos",
@@ -769,7 +772,7 @@ export const translations = {
             ],
             sealTitle: "Garantía de Satisfacción",
             sealDesc: "100% Servicio de Calidad",
-            viewReviews: "Ver todas las reseñas",
+            viewReviews: "Reservar un coche",
             testimonials: [
                 { name: "Karim M.", location: "Casablanca", text: "Excelente servicio en Casablanca, coche limpio y entregado en el aeropuerto. ¡Recomiendo encarecidamente VINCI por su profesionalidad!" },
                 { name: "Samira L.", location: "Marrakech", text: "Alquilé un Hyundai Tucson para un viaje familiar a Marrakech. Coche impecable y precio muy competitivo en comparación con otras agencias." },

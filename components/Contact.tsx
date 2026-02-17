@@ -78,7 +78,7 @@ const Contact: React.FC = () => {
                 <textarea rows={4} className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900 resize-none" placeholder={t('contact.form.messagePlaceholder')}></textarea>
               </div>
               <button className="w-full py-5 bg-amber-500 text-white font-bold rounded-2xl text-lg hover:bg-amber-600 hover:shadow-lg hover:shadow-amber-500/30 transition-all active:scale-[0.99] uppercase tracking-widest">
-                {t('contact.form.sendButton')}
+                {t('contact.form.send')}
               </button>
               {formSubmitted && (
                 <div className="p-4 bg-green-100 text-green-700 rounded-xl text-center font-bold">

@@ -31,12 +31,12 @@ const App: React.FC = () => {
         <main className="flex-grow">
           {currentPage === 'home' && (
             <>
-              <Hero />
+              <Hero onNavigate={setCurrentPage} />
               <ProfessionalServices />
               <HomeVehicles onNavigate={setCurrentPage} />
-              <Benefits />
-              <CityNetwork />
-              <TrustSection />
+              <Benefits onNavigate={setCurrentPage} />
+              <CityNetwork onNavigate={setCurrentPage} />
+              <TrustSection onNavigate={setCurrentPage} />
               <FAQ />
               <BookingCTA />
             </>
@@ -58,7 +58,7 @@ const App: React.FC = () => {
             <Contact />
           )}
         </main>
-        <Footer />
+        <Footer onNavigate={setCurrentPage} />
       </div>
     </LanguageProvider>
   );
