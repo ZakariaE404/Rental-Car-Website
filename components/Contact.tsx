@@ -1,14 +1,54 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useSettings } from '../context/SettingsContext';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const { settings } = useSettings();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    subject: 'Demande d\'information',
+    message: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 5000);
+    setLoading(true);
+    setStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/send_contact.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setStatus({ type: 'success', message: t('contact.form.success') });
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: 'Demande d\'information',
+          message: ''
+        });
+      } else {
+        setStatus({ type: 'error', message: result.message });
+      }
+    } catch (error) {
+      setStatus({ type: 'error', message: t('booking.error') });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,8 +83,8 @@ const Contact: React.FC = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-2">{t('contact.phoneTitle')}</h3>
                 <p className="text-blue-100 text-sm mb-6">{t('contact.phoneDesc')}</p>
-                <a href="tel:+212600000000" className="text-2xl font-mono font-bold hover:text-amber-500 transition-colors">
-                  +212 6 XX XX XX XX
+                <a href={`tel:+${settings.phone}`} className="text-2xl font-mono font-bold hover:text-amber-500 transition-colors">
+                  +{settings.phone}
                 </a>
               </div>
             </div>
@@ -56,33 +96,92 @@ const Contact: React.FC = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-blue-900 mb-2">{t('contact.emailTitle')}</h3>
-              <a href="mailto:contact@vinci.ma" className="text-slate-600 font-medium hover:text-amber-500 transition-colors">contact@vinci.ma</a>
+              <a href={`mailto:${settings.email}`} className="text-slate-600 font-medium hover:text-amber-500 transition-colors">{settings.email}</a>
             </div>
           </div>
 
           {/* Contact Form */}
           <div className="lg:w-2/3 bg-white rounded-[2.5rem] p-8 md:p-12 shadow-2xl border border-slate-100">
-            <form className="space-y-8" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">{t('contact.form.name')}</label>
-                  <input type="text" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900" placeholder={t('contact.form.namePlaceholder')} />
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900"
+                    placeholder={t('contact.form.namePlaceholder')}
+                  />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">{t('contact.form.phone')}</label>
-                  <input type="tel" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900" placeholder="+212 6..." />
+                  <label className="text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">{t('contact.form.email')}</label>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900"
+                    placeholder="example@mail.com"
+                  />
                 </div>
               </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">{t('contact.form.phone')}</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900"
+                    placeholder="+212 6..."
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">{t('contact.form.subject')}</label>
+                  <select
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900"
+                  >
+                    <option value="Demande d'information">{t('contact.subjects.info')}</option>
+                    <option value="Réservation">{t('contact.subjects.booking')}</option>
+                    <option value="Réclamation">{t('contact.subjects.claim')}</option>
+                    <option value="Autre">{t('contact.subjects.other')}</option>
+                  </select>
+                </div>
+              </div>
+
               <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700 uppercase tracking-wider ml-1">{t('contact.form.message')}</label>
-                <textarea rows={4} className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900 resize-none" placeholder={t('contact.form.messagePlaceholder')}></textarea>
+                <textarea
+                  name="message"
+                  required
+                  rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-amber-500 transition-all font-medium text-blue-900 resize-none"
+                  placeholder={t('contact.form.messagePlaceholder')}
+                ></textarea>
               </div>
-              <button className="w-full py-5 bg-amber-500 text-white font-bold rounded-2xl text-lg hover:bg-amber-600 hover:shadow-lg hover:shadow-amber-500/30 transition-all active:scale-[0.99] uppercase tracking-widest">
-                {t('contact.form.send')}
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-5 bg-amber-500 text-white font-bold rounded-2xl text-lg hover:bg-amber-600 hover:shadow-lg hover:shadow-amber-500/30 transition-all active:scale-[0.99] uppercase tracking-widest disabled:opacity-50"
+              >
+                {loading ? '...' : t('contact.form.send')}
               </button>
-              {formSubmitted && (
-                <div className="p-4 bg-green-100 text-green-700 rounded-xl text-center font-bold">
-                  Message envoyé avec succès !
+
+              {status.type && (
+                <div className={`p-4 rounded-xl text-center font-bold ${status.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                  {status.message}
                 </div>
               )}
             </form>

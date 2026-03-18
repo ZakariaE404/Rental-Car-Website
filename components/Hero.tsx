@@ -1,7 +1,8 @@
-
 import React from 'react';
-import Marquee from './Marquee';
 import { useLanguage } from '../context/LanguageContext';
+import { vehicles } from '../data/vehicles';
+import heroMobile from '../assets/hero-mobile.png';
+import heroDesktop from '../assets/hero-desktop.png';
 
 interface HeroProps {
   onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact') => void;
@@ -11,62 +12,111 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative min-h-[90vh] lg:min-h-screen flex items-center overflow-hidden">
-      {/* Background with subtle animation */}
-      <div
-        className="absolute inset-0 bg-cover bg-center z-0 scale-105 animate-[pulse_10s_ease-in-out_infinite]"
-        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=2070&auto=format&fit=crop)' }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-950/95 via-blue-950/70 to-blue-900/30"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-950 via-transparent to-transparent"></div>
+    <section className="relative h-screen flex flex-col overflow-hidden bg-slate-950">
+      {/* Cinematic Background */}
+      <div className="absolute inset-0 z-0">
+        {/* Mobile background (hidden on md+) */}
+        <div
+          className="hero-bg-mobile absolute inset-0 bg-cover bg-center scale-105 animate-[slow-zoom_20s_ease-in-out_infinite]"
+          style={{ backgroundImage: `url(${heroMobile})` }}
+        />
+        {/* Desktop background (hidden below md) */}
+        <div
+          className="hero-bg-desktop absolute inset-0 bg-cover bg-center scale-105 animate-[slow-zoom_20s_ease-in-out_infinite]"
+          style={{ backgroundImage: `url(${heroDesktop})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950/90" />
+        <div className="absolute inset-0 bg-slate-950/20" />
       </div>
 
-      {/* Main Content Container with significantly more bottom padding to clear the marquee */}
-      <div className="container mx-auto px-6 md:px-12 relative z-10 pt-32 pb-40 lg:pt-40 lg:pb-52">
-        <div className="max-w-4xl">
-          {/* Elite Branding Badge */}
-          <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full text-white font-semibold text-xs tracking-[0.2em] mb-8 shadow-2xl">
-            <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.8)]"></span>
-            L'EXCELLENCE AUTOMOBILE AU MAROC
+      {/* Hero Content */}
+      <div className="relative z-10 flex-grow container mx-auto px-6 md:px-12 flex flex-col justify-center items-center text-center pt-40 lg:pt-48 pb-20">
+        <div className="max-w-5xl animate-in fade-in zoom-in duration-1000">
+          <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-lg text-white font-bold text-[10px] md:text-xs tracking-[0.4em] mb-8 shadow-sm uppercase">
+            <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(var(--brand-rgb),0.8)]"></span>
+            {t('nav.rentCar').toUpperCase()} AU MAROC
           </div>
 
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] mb-6 tracking-tight drop-shadow-2xl">
-            {t('hero.title')}
-          </h2>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.95] mb-8 tracking-tighter drop-shadow-2xl">
+            PREMIUM <span className="text-amber-500">DRIVE</span>
+          </h1>
 
-          <h3 className="text-xl md:text-2xl text-slate-200 font-light mb-8 max-w-2xl border-l-2 border-amber-500 pl-6 py-1">
+          <p className="text-lg md:text-xl text-slate-200 font-medium mb-12 max-w-2xl mx-auto leading-relaxed opacity-90">
             {t('hero.subtitle')}
-          </h3>
-
-          <p className="text-lg text-slate-300 leading-relaxed mb-12 max-w-2xl font-light opacity-90">
-            {t('hero.description')}
           </p>
 
-          <div className="flex flex-wrap gap-5">
-            <button onClick={() => onNavigate('vehicles')} className="group relative px-10 py-5 bg-amber-500 overflow-hidden text-blue-950 font-black text-lg rounded-2xl shadow-[0_20px_40px_rgba(245,158,11,0.2)] transition-all hover:scale-105 active:scale-95">
-              <span className="relative z-10">{t('hero.search')}</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mt-12 w-full">
+            <button
+              onClick={() => onNavigate('vehicles')}
+              className="w-full sm:w-auto px-12 py-5 bg-amber-500 hover:bg-white text-slate-950 font-black text-sm rounded-lg shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest border border-amber-400/50"
+            >
+              EXPLORER LA FLOTTE
             </button>
-            <button onClick={() => onNavigate('about')} className="px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 backdrop-blur-xl font-bold text-lg rounded-2xl transition-all hover:border-amber-500/50">
+            <button
+              onClick={() => onNavigate('contact')}
+              className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 backdrop-blur-xl font-bold rounded-lg transition-all hover:border-amber-500/50 uppercase tracking-widest text-sm"
+            >
               {t('hero.agency')}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Background Ornamental Elements */}
-      <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none opacity-5 overflow-hidden">
-        <svg viewBox="0 0 100 100" className="w-full h-full text-amber-500 fill-current">
-          <circle cx="100" cy="0" r="80" stroke="currentColor" strokeWidth="0.5" fill="none" />
-          <circle cx="100" cy="0" r="60" stroke="currentColor" strokeWidth="0.5" fill="none" />
-          <circle cx="100" cy="0" r="40" stroke="currentColor" strokeWidth="0.5" fill="none" />
-        </svg>
-      </div>
+      <style>{`
+        @keyframes slow-zoom {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+          100% { transform: scale(1); }
+        }
 
-      {/* Marquee component - Anchor with absolute bottom positioning */}
-      <div className="absolute bottom-0 left-0 w-full z-20">
-        <Marquee />
-      </div>
+        /* Responsive hero backgrounds */
+        .hero-bg-mobile  { display: block; }
+        .hero-bg-desktop { display: none;  }
+
+        @media (min-width: 768px) {
+          .hero-bg-mobile  { display: none;  }
+          .hero-bg-desktop { display: block; }
+        }
+        
+        .animate-in {
+          animation-fill-mode: both;
+        }
+        
+        .fade-in {
+          animation-name: fade-in;
+        }
+        
+        .zoom-in {
+          animation-name: zoom-in;
+        }
+
+        .slide-in-from-bottom {
+          animation-name: slide-in-from-bottom;
+        }
+
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes zoom-in {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slide-in-from-bottom {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .duration-1000 {
+          animation-duration: 1000ms;
+        }
+
+        .delay-500 {
+          animation-delay: 500ms;
+        }
+      `}</style>
     </section>
   );
 };

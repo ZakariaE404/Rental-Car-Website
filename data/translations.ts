@@ -81,7 +81,7 @@ export const translations = {
         benefits: {
             title: "Pourquoi nous ?",
             mainTitle: "Pourquoi Choisir",
-            mainTitleHighlight: "VINCI ?",
+            mainTitleHighlight: "prestigeAuto ?",
             description: "Service rapide, fiable et au meilleur rapport qualité-prix au Maroc.",
             ctaTitle: "Prêt à prendre la route ?",
             ctaDesc: "Réservez votre véhicule dès aujourd'hui partout au Maroc.",
@@ -112,7 +112,7 @@ export const translations = {
             sealDesc: "100% Service de Qualité",
             viewReviews: "Réserver une voiture",
             testimonials: [
-                { name: "Karim M.", location: "Casablanca", text: "Excellent service à Casablanca, voiture propre et remise à l'aéroport. Je recommande vivement VINCI pour leur professionnalisme !" },
+                { name: "Karim M.", location: "Casablanca", text: "Excellent service à Casablanca, voiture propre et remise à l'aéroport. Je recommande vivement prestigeAuto pour leur professionnalisme !" },
                 { name: "Samira L.", location: "Marrakech", text: "J'ai loué une Hyundai Tucson pour un voyage en famille à Marrakech. Voiture impeccable et prix très compétitif par rapport aux autres agences." },
                 { name: "Youssef B.", location: "Tanger", text: "Rapide et efficace, livraison à l'heure à l'aéroport de Tanger. Je reprendrai chez eux pour mes prochains déplacements professionnels." }
             ]
@@ -227,9 +227,9 @@ export const translations = {
             welcome: "Bienvenue chez",
             subtitle: "Votre partenaire de confiance pour la location de voitures au Maroc",
             description: "Nous mettons à votre disposition une large gamme de véhicules récents et bien entretenus — citadines, berlines, SUV et voitures automatiques — pour répondre à tous vos besoins de déplacement, que ce soit pour un voyage professionnel, des vacances en famille ou un court séjour en ville.",
-            historyTitle: "Notre Histoire",
+            history: "Notre Histoire",
             historySubtitle: "Plus de 10 ans d'expérience",
-            historyDescription: "Depuis plus d'une décennie, DigitalZ Location s'efforce de redéfinir les standards de la location de voitures au Maroc. Notre parcours est marqué par un engagement sans faille envers la satisfaction de nos clients et une volonté constante de moderniser notre flotte pour garantir sécurité et confort.",
+            historyDescription: "Depuis plus d'une décennie, prestigeAuto Location s'efforce de redéfinir les standards de la location de voitures au Maroc. Notre parcours est marqué par un engagement sans faille envers la satisfaction de nos clients et une volonté constante de moderniser notre flotte pour garantir sécurité et confort.",
             checkPoints: ["Des véhicules récents", "Assurance tous risques", "Kilométrage illimité", "Assistance 24/7"],
             stats: {
                 years: "Années",
@@ -238,7 +238,7 @@ export const translations = {
                 support: "Support"
             },
             commitment: "Notre priorité est de vous offrir la meilleure expérience de conduite au royaume.",
-            team: "L'Équipe DigitalZ Location",
+            team: "L'Équipe prestigeAuto Location",
             coverage: {
                 title: "Notre Couverture",
                 description: "Nous sommes présents dans les plus grandes villes pour vous servir."
@@ -251,7 +251,7 @@ export const translations = {
             ],
             values: {
                 title: "Nos Valeurs",
-                description: "Chez DigitalZ, nous croyons en...",
+                description: "Chez prestigeAuto, nous croyons en...",
                 satisfaction: "Satisfaction",
                 satisfactionDesc: "Votre satisfaction est notre priorité absolue.",
                 transparency: "Transparence",
@@ -329,6 +329,38 @@ export const translations = {
         },
         common: {
             viewOnMap: "Voir sur la carte"
+        },
+        booking: {
+            title: "Réservation",
+            subtitle: "Réservez votre véhicule en moins de 2 minutes",
+            status: "Disponibilité Immédiate",
+            carSelect: "Sélectionner un véhicule",
+            carPlaceholder: "Choisissez une voiture...",
+            startDate: "Date de début",
+            endDate: "Date de fin",
+            paymentMethod: "Mode de paiement",
+            cash: "Espèces (Cash)",
+            virement: "Virement bancaire",
+            name: "Nom complet",
+            phone: "Numéro de téléphone",
+            email: "Email (Optionnel)",
+            whatsapp: "WhatsApp (Optionnel)",
+            days: "Nombre de jours",
+            perDay: "Prix par jour",
+            total: "Montant total",
+            dh: "DH",
+            priceNote: "Calculé en temps réel • Sans frais cachés",
+            submit: "Confirmer la réservation",
+            success: "Réservation soumise avec succès !",
+            error: "Une erreur est survenue. Veuillez réessayer."
+        },
+        location: {
+            title: "NOTRE EMPLACEMENT",
+            heading: "Où Nous Trouver",
+            description: "Découvrez nos locaux au cœur du Maroc et venez nous rendre visite pour une expérience personnalisée.",
+            officeName: "Casablanca",
+            address: "Casablanca, Maroc",
+            noReviews: "Aucun avis"
         }
     },
     en: {
@@ -412,7 +444,7 @@ export const translations = {
         benefits: {
             title: "Why Us?",
             mainTitle: "Why Choose",
-            mainTitleHighlight: "VINCI?",
+            mainTitleHighlight: "prestigeAuto?",
             description: "Fast, reliable service and the best value for money in Morocco.",
             ctaTitle: "Ready to hit the road?",
             ctaDesc: "Book your vehicle today anywhere in Morocco.",
@@ -443,7 +475,7 @@ export const translations = {
             sealDesc: "100% Quality Service",
             viewReviews: "Book a Car",
             testimonials: [
-                { name: "Karim M.", location: "Casablanca", text: "Excellent service in Casablanca, clean car and delivered to the airport. I highly recommend VINCI for their professionalism!" },
+                { name: "Karim M.", location: "Casablanca", text: "Excellent service in Casablanca, clean car and delivered to the airport. I highly recommend prestigeAuto for their professionalism!" },
                 { name: "Samira L.", location: "Marrakech", text: "I rented a Hyundai Tucson for a family trip to Marrakech. Impeccable car and very competitive price compared to other agencies." },
                 { name: "Youssef B.", location: "Tangier", text: "Fast and efficient, delivered on time to Tangier airport. I will use them again for my next business trips." }
             ]
@@ -558,9 +590,9 @@ export const translations = {
             welcome: "Welcome to",
             subtitle: "Your trusted partner for car rental in Morocco",
             description: "We provide a wide range of recent and well-maintained vehicles — city cars, sedans, SUVs, and automatic cars — to meet all your travel needs, whether for a business trip, a family vacation, or a short city break.",
-            historyTitle: "Our History",
+            history: "Our History",
             historySubtitle: "More than 10 years of experience",
-            historyDescription: "For over a decade, DigitalZ Location has strived to redefine car rental standards in Morocco. Our journey is marked by an unwavering commitment to customer satisfaction and a constant desire to modernize our fleet to ensure safety and comfort.",
+            historyDescription: "For over a decade, prestigeAuto Location has strived to redefine car rental standards in Morocco. Our journey is marked by an unwavering commitment to customer satisfaction and a constant desire to modernize our fleet to ensure safety and comfort.",
             checkPoints: ["Recent vehicles", "Full risk insurance", "Unlimited mileage", "24/7 Assistance"],
             stats: {
                 years: "Years",
@@ -569,7 +601,7 @@ export const translations = {
                 support: "Support"
             },
             commitment: "Our priority is to offer you the best driving experience in the kingdom.",
-            team: "The DigitalZ Location Team",
+            team: "The prestigeAuto Location Team",
             coverage: {
                 title: "Our Coverage",
                 description: "We are present in the largest cities to serve you."
@@ -582,7 +614,7 @@ export const translations = {
             ],
             values: {
                 title: "Our Values",
-                description: "At DigitalZ, we believe in...",
+                description: "At prestigeAuto, we believe in...",
                 satisfaction: "Satisfaction",
                 satisfactionDesc: "Your satisfaction is our absolute priority.",
                 transparency: "Transparency",
@@ -660,6 +692,38 @@ export const translations = {
         },
         common: {
             viewOnMap: "View on map"
+        },
+        booking: {
+            title: "Reservation",
+            subtitle: "Book your vehicle in less than 2 minutes",
+            status: "Immediate Availability",
+            carSelect: "Select Vehicle",
+            carPlaceholder: "Choose a car...",
+            startDate: "Start Date",
+            endDate: "End Date",
+            paymentMethod: "Payment Method",
+            cash: "Cash",
+            virement: "Bank Transfer",
+            name: "Full Name",
+            phone: "Phone Number",
+            email: "Email (Optional)",
+            whatsapp: "WhatsApp (Optional)",
+            days: "Number of days",
+            perDay: "Price per day",
+            total: "Total amount",
+            dh: "DH",
+            priceNote: "Calculated in real-time • No hidden fees",
+            submit: "Submit Reservation",
+            success: "Reservation submitted successfully!",
+            error: "An error occurred. Please try again."
+        },
+        location: {
+            title: "OUR LOCATION",
+            heading: "Where to Find Us",
+            description: "Discover our premises in the heart of Morocco and visit us for a personalized experience.",
+            officeName: "Casablanca",
+            address: "Casablanca, Morocco",
+            noReviews: "No reviews"
         }
     },
     es: {
@@ -709,7 +773,7 @@ export const translations = {
                 3: "Alquile un Hyundai Tucson moderno y espacioso en cualquier lugar de Marruecos. Perfecto para viajes largos, combinando confort, potencia y diseño elegante.",
                 4: "Alquile un Kia Picanto práctico y económico en Marruecos. Ideal para la ciudad, fácil de aparcar.",
                 5: "Moderno, cómodo y bien equipado, perfecto para viajes urbanos e interurbanos.",
-                6: "Compacto, económico e ideal para circular por la ciudad con estilo y agilidad.",
+                6: "Compacto, económico y ideal para circular por la ciudad con estilo y agilidad.",
                 7: "Look crossover, espacio y practicidad para los desplazamientos diarios o escapadas.",
                 8: "Urbano elegante, económico y fácil de conducir, ideal para desplazamientos urbanos.",
                 9: "Alquile un Volkswagen Golf 8 elegante y dinámico en Marruecos — combinando rendimiento, confort y diseño moderno para una experiencia de conducción excepcional."
@@ -743,7 +807,7 @@ export const translations = {
         benefits: {
             title: "¿Por qué nosotros?",
             mainTitle: "¿Por qué elegir",
-            mainTitleHighlight: "VINCI?",
+            mainTitleHighlight: "prestigeAuto?",
             description: "Servicio rápido, fiable y con la mejor relación calidad-precio en Marruecos.",
             ctaTitle: "¿Listo para salir a la carretera?",
             ctaDesc: "Reserve su vehículo hoy mismo en cualquier lugar de Marruecos.",
@@ -774,7 +838,7 @@ export const translations = {
             sealDesc: "100% Servicio de Calidad",
             viewReviews: "Reservar un coche",
             testimonials: [
-                { name: "Karim M.", location: "Casablanca", text: "Excelente servicio en Casablanca, coche limpio y entregado en el aeropuerto. ¡Recomiendo encarecidamente VINCI por su profesionalidad!" },
+                { name: "Karim M.", location: "Casablanca", text: "Excelente servicio en Casablanca, coche limpio y entregado en el aeropuerto. ¡Recomiendo encarecidamente prestigeAuto por su profesionalidad!" },
                 { name: "Samira L.", location: "Marrakech", text: "Alquilé un Hyundai Tucson para un viaje familiar a Marrakech. Coche impecable y precio muy competitivo en comparación con otras agencias." },
                 { name: "Youssef B.", location: "Tánger", text: "Rápido y eficaz, entrega puntual en el aeropuerto de Tánger. Volveré a utilizar sus servicios para mis próximos viajes de negocios." }
             ]
@@ -889,9 +953,9 @@ export const translations = {
             welcome: "Bienvenido a",
             subtitle: "Su socio de confianza para el alquiler de coches en Marruecos",
             description: "Ofrecemos una amplia gama de vehículos recientes y bien mantenidos — coches urbanos, berlinas, SUV y automáticos — para satisfacer todas sus necesidades de viaje, ya sea por negocios, vacaciones en familia o una escapada urbana.",
-            historyTitle: "Nuestra Historia",
+            history: "Nuestra Historia",
             historySubtitle: "Más de 10 años de experiencia",
-            historyDescription: "Durante más de una década, DigitalZ Location se ha esforzado por redefinir los estándares de alquiler de coches en Marruecos. Nuestro viaje está marcado por un compromiso inquebrantable con la satisfacción del cliente y un deseo constante de modernizar nuestra flota para garantizar seguridad y confort.",
+            historyDescription: "Durante más de una década, prestigeAuto Location se ha esforzado por redefinir los estándares de alquiler de coches en Marruecos. Nuestro viaje está marcado por un compromiso inquebrantable con la satisfacción del cliente y un deseo constante de modernizar nuestra flota para garantizar seguridad y confort.",
             checkPoints: ["Vehículos recientes", "Seguro a todo riesgo", "Kilometraje ilimitado", "Asistencia 24/7"],
             stats: {
                 years: "Años",
@@ -900,7 +964,7 @@ export const translations = {
                 support: "Soporte"
             },
             commitment: "Nuestra prioridad es ofrecerle la mejor experiencia de conducción en el reino.",
-            team: "El Equipo DigitalZ Location",
+            team: "El Equipo prestigeAuto Location",
             coverage: {
                 title: "Nuestra Cobertura",
                 description: "Estamos presentes en las ciudades más grandes para servirle."
@@ -913,7 +977,7 @@ export const translations = {
             ],
             values: {
                 title: "Nuestros Valores",
-                description: "En DigitalZ, creemos en...",
+                description: "En prestigeAuto, creemos en...",
                 satisfaction: "Satisfacción",
                 satisfactionDesc: "Su satisfacción es nuestra prioridad absoluta.",
                 transparency: "Transparencia",
@@ -991,6 +1055,38 @@ export const translations = {
         },
         common: {
             viewOnMap: "Ver en el mapa"
+        },
+        booking: {
+            title: "Reserva",
+            subtitle: "Reserve su vehículo en menos de 2 minutos",
+            status: "Disponibilidad Inmediata",
+            carSelect: "Seleccionar vehículo",
+            carPlaceholder: "Elige un coche...",
+            startDate: "Fecha de inicio",
+            endDate: "Fecha de fin",
+            paymentMethod: "Método de pago",
+            cash: "Efectivo",
+            virement: "Transferencia bancaria",
+            name: "Nombre completo",
+            phone: "Número de teléfono",
+            email: "Correo electrónico (Opcional)",
+            whatsapp: "WhatsApp (Opcional)",
+            days: "Número de días",
+            perDay: "Precio por día",
+            total: "Monto total",
+            dh: "DH",
+            priceNote: "Calculado en tiempo real • Sin cargos ocultos",
+            submit: "Confirmar reserva",
+            success: "¡Reserva enviada con éxito!",
+            error: "Ocurrió un error. Por favor, inténtelo de nuevo."
+        },
+        location: {
+            title: "NUESTRA UBICACIÓN",
+            heading: "Dónde Encontrarnos",
+            description: "Descubra nuestras instalaciones en el corazón de Marruecos y visítenos para una experiencia personalizada.",
+            officeName: "Casablanca",
+            address: "Casablanca, Marruecos",
+            noReviews: "Sin reseñas"
         }
     }
 };

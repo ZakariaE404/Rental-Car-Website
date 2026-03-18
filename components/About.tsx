@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import LocationSection from './LocationSection';
 
 const About: React.FC = () => {
   const [stats, setStats] = useState({ years: 0, cities: 0, vehicles: 0 });
@@ -109,8 +110,8 @@ const About: React.FC = () => {
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="moroccan-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                <path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="#f59e0b" strokeWidth="0.5" />
-                <circle cx="50" cy="50" r="10" fill="none" stroke="#f59e0b" strokeWidth="0.5" />
+                <path d="M50 0 L100 50 L50 100 L0 50 Z" fill="none" stroke="var(--brand-color)" strokeWidth="0.5" />
+                <circle cx="50" cy="50" r="10" fill="none" stroke="var(--brand-color)" strokeWidth="0.5" />
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#moroccan-pattern)" />
@@ -341,6 +342,8 @@ const About: React.FC = () => {
           <p className="text-amber-500 font-black mt-6 uppercase tracking-widest text-sm">{t('about.team')}</p>
         </div>
       </section>
+
+      <LocationSection />
 
       {/* Cities Marquee */}
       <div className="bg-white py-12 border-t border-slate-100 overflow-hidden select-none">

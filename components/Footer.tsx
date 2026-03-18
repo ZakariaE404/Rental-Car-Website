@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { useSettings } from '../context/SettingsContext';
 
 interface FooterProps {
-  onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact') => void;
+  onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact' | 'admin') => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const { t } = useLanguage();
+  const { settings } = useSettings();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,27 +62,58 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     }
   ];
 
-  /* 
-     Ideally, mainCities should also be dynamic or fetched from a source.
-     For now we use the static list but ideally it should follow the same pattern as CityNetwork.
-     Since footer.cities corresponds to "Villes", we can just list the names.
-  */
   const mainCities = ["Casablanca", "Rabat", "Marrakech", "Tanger", "Agadir", "Fès", "Kénitra"];
+
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<{ type: 'success' | 'error' | null, message: string }>({ type: null, message: '' });
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setLoading(true);
+    setStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/subscribe_newsletter.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setStatus({ type: 'success', message: result.message });
+        setEmail('');
+      } else {
+        setStatus({ type: 'error', message: result.message });
+      }
+    } catch (error) {
+      setStatus({ type: 'error', message: t('booking.error') });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <footer className="bg-slate-950 text-slate-300 pt-20 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent opacity-50"></div>
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent to-transparent opacity-50" style={{ backgroundImage: `linear-gradient(to right, transparent, ${settings.brandColor}, transparent)` }}></div>
 
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
 
           {/* Brand Column */}
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 group cursor-pointer">
-              <div className="flex flex-col">
-                <h2 className="text-2xl font-bold text-white tracking-tight">DigitalZ <span className="text-amber-500">Location</span></h2>
-                <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold mt-1">{t('nav.rentCar')}</p>
-              </div>
+            <div className="inline-flex items-center gap-3 group cursor-pointer">
+              {settings.logoUrl ? (
+                <img src={settings.logoUrl} alt={settings.brandName} className="h-14 w-auto object-contain drop-shadow-lg" />
+              ) : (
+                <div className="flex flex-col">
+                  <h2 className="text-2xl font-bold text-white tracking-tight">{settings.brandName} <span style={{ color: settings.brandColor }}>Location</span></h2>
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold mt-1">{t('nav.rentCar')}</p>
+                </div>
+              )}
             </div>
             <p className="text-slate-400 text-sm leading-relaxed mb-6">
               {t('footer.partner')}
@@ -90,7 +123,10 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <a
                   key={social.name}
                   href={social.href}
-                  className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:bg-amber-500 hover:text-white transition-all duration-300"
+                  className="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300"
+                  style={{ ['--hover-bg' as any]: settings.brandColor }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = settings.brandColor)}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '')}
                   aria-label={social.name}
                 >
                   {social.icon}
@@ -103,16 +139,18 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div>
             <h3 className="text-white font-bold uppercase tracking-wider mb-8 relative inline-block">
               {t('footer.quickLinks')}
-              <span className="absolute -bottom-2 left-0 w-12 h-1 bg-amber-500 rounded-full"></span>
+              <span className="absolute -bottom-2 left-0 w-12 h-1 rounded-full" style={{ backgroundColor: settings.brandColor }}></span>
             </h3>
             <ul className="space-y-4">
               {footerLinks.map((link) => (
                 <li key={link.name}>
                   <button
                     onClick={() => onNavigate(link.page)}
-                    className="text-slate-400 hover:text-amber-500 transition-colors flex items-center gap-2 text-sm group"
+                    className="text-slate-400 transition-colors flex items-center gap-2 text-sm group"
+                    onMouseEnter={(e) => (e.currentTarget.style.color = settings.brandColor)}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '')}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500/50 group-hover:bg-amber-500 transition-colors"></span>
+                    <span className="w-1.5 h-1.5 rounded-full transition-colors" style={{ backgroundColor: `${settings.brandColor}80` }}></span>
                     {link.name}
                   </button>
                 </li>
@@ -124,13 +162,13 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div>
             <h3 className="text-white font-bold uppercase tracking-wider mb-8 relative inline-block">
               {t('footer.ourCities')}
-              <span className="absolute -bottom-2 left-0 w-12 h-1 bg-amber-500 rounded-full"></span>
+              <span className="absolute -bottom-2 left-0 w-12 h-1 rounded-full" style={{ backgroundColor: settings.brandColor }}></span>
             </h3>
             <ul className="grid grid-cols-2 gap-3">
               {mainCities.map((city) => (
                 <li key={city}>
-                  <a href="#" className="text-slate-400 hover:text-amber-500 transition-colors text-sm flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3 text-amber-500">
+                  <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3 h-3" style={{ color: settings.brandColor }}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                     </svg>
@@ -145,34 +183,68 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div>
             <h3 className="text-white font-bold uppercase tracking-wider mb-8 relative inline-block">
               Newsletter
-              <span className="absolute -bottom-2 left-0 w-12 h-1 bg-amber-500 rounded-full"></span>
+              <span className="absolute -bottom-2 left-0 w-12 h-1 rounded-full" style={{ backgroundColor: settings.brandColor }}></span>
             </h3>
             <p className="text-slate-400 text-sm mb-6">
               {t('footer.newsletterDesc')}
             </p>
-            <div className="flex flex-col gap-3">
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
               <input
                 type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('footer.emailPlaceholder')}
-                className="bg-slate-900 border border-slate-800 text-white px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-amber-500 transition-all"
+                className="bg-slate-900 border border-slate-800 text-white px-4 py-3 rounded-xl text-sm focus:outline-none transition-all"
+                style={{ ['--focus-border' as any]: settings.brandColor }}
+                onFocus={(e) => (e.currentTarget.style.borderColor = settings.brandColor)}
+                onBlur={(e) => (e.currentTarget.style.borderColor = '')}
               />
-              <button className="bg-amber-500 text-white font-bold uppercase tracking-wider text-xs py-3 rounded-xl hover:bg-amber-600 transition-all shadow-lg shadow-amber-500/20">
-                {t('footer.subscribeButton')}
+              <button
+                type="submit"
+                disabled={loading}
+                className="text-white font-bold uppercase tracking-wider text-xs py-3 rounded-xl transition-all shadow-lg disabled:opacity-50 hover:opacity-90"
+                style={{ backgroundColor: settings.brandColor }}
+              >
+                {loading ? '...' : t('footer.subscribeButton')}
               </button>
-            </div>
+              {status.type && (
+                <p className={`text-[10px] font-bold mt-2 ${status.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                  {status.message}
+                </p>
+              )}
+            </form>
           </div>
 
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-900 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-slate-500 text-xs">
-            © 2024 DigitalZ Location. {t('footer.rights')}
-          </p>
-          <div className="flex gap-6 text-xs text-slate-500">
-            <a href="#" className="hover:text-amber-500 transition-colors">{t('footer.privacy')}</a>
-            <a href="#" className="hover:text-amber-500 transition-colors">{t('footer.terms')}</a>
-            <a href="#" className="hover:text-amber-500 transition-colors">Cookies</a>
+        <div className="border-t border-slate-900 py-10 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <p className="text-slate-500 text-[11px] font-bold uppercase tracking-[0.2em]">
+              © 2024 <span className="text-white">{settings.brandName} Location</span>. {t('footer.rights')}
+            </p>
+            <p className="text-slate-600 text-[9px] uppercase tracking-[0.3em] font-black">
+              Designed for Excellence & Speed
+            </p>
+          </div>
+
+          <div className="flex flex-wrap justify-center items-center gap-8">
+            <button onClick={() => onNavigate('privacy')} className="text-[10px] font-bold uppercase tracking-widest text-slate-500 transition-colors" onMouseEnter={(e) => (e.currentTarget.style.color = settings.brandColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '')}>Politique de Confidentialité</button>
+            <button onClick={() => onNavigate('terms')} className="text-[10px] font-bold uppercase tracking-widest text-slate-500 transition-colors" onMouseEnter={(e) => (e.currentTarget.style.color = settings.brandColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '')}>Conditions Générales</button>
+
+            <button
+              onClick={() => onNavigate('admin')}
+              className="text-[10px] font-bold uppercase tracking-widest text-slate-700 transition-colors"
+              onMouseEnter={(e) => (e.currentTarget.style.color = settings.brandColor)}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '')}
+              title="Admin Dashboard"
+            >
+              {t('footer.privacy') === 'Intimité' ? 'Administration' : 'Admin'}
+            </button>
+
+            <div className="hidden md:block w-px h-4 bg-slate-800"></div>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-700">{settings.brandName} Ecosystem</p>
           </div>
         </div>
       </div>
@@ -180,7 +252,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 bg-amber-500 text-white p-3 rounded-full shadow-2xl hover:bg-amber-600 transition-all duration-300 z-50 group ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+        className={`fixed bottom-8 right-8 text-white p-3 rounded-full shadow-2xl transition-all duration-300 z-50 group hover:opacity-90 ${showScrollTop ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}
+        style={{ backgroundColor: settings.brandColor }}
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 group-hover:-translate-y-1 transition-transform">
           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />

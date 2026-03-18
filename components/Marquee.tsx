@@ -1,22 +1,27 @@
-
 import React from 'react';
 
 const Marquee: React.FC = () => {
-  const cities = [
-    "Casablanca", "Rabat", "Marrakech", "Tanger", "Agadir", "Fès", "Kénitra", 
-    "Oujda", "Tétouan", "Meknès", "Nador", "Laâyoune"
+  const cityData = [
+    { name: "Casablanca", image: "/assets/casa.jpeg" },
+    { name: "Rabat", image: "/assets/rabat.jpg" },
+    { name: "Marrakech", image: "/assets/marrakech.jpeg" },
+    { name: "Tanger", image: "/assets/tangier.webp" },
+    { name: "Agadir", image: "/assets/agadir.jpeg" },
+    { name: "Fès", image: "/assets/fes.jpeg" }
   ];
 
-  const content = [...cities, ...cities]; // Double for seamless loop
+  const content = [...cityData, ...cityData, ...cityData]; // Triple for seamless loop
 
   return (
-    <div className="bg-blue-900/90 backdrop-blur-sm border-t border-white/10 py-4 overflow-hidden select-none">
+    <div className="bg-slate-950/40 backdrop-blur-xl border-y border-white/5 py-4 overflow-hidden select-none relative z-20">
       <div className="animate-marquee whitespace-nowrap flex items-center">
         {content.map((city, idx) => (
-          <div key={idx} className="flex items-center mx-8">
-            <span className="text-amber-500 mr-2 text-xl">•</span>
-            <span className="text-white font-bold text-lg uppercase tracking-widest opacity-80 hover:opacity-100 transition-opacity cursor-default">
-              {city}
+          <div key={idx} className="flex items-center mx-12 group cursor-default">
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-amber-500/30 group-hover:border-amber-500 transition-all duration-500 transform group-hover:scale-110 shadow-lg mr-6">
+              <img src={city.image} alt={city.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+            </div>
+            <span className="text-white font-black text-xl md:text-2xl uppercase tracking-[0.3em] opacity-40 group-hover:opacity-100 transition-all group-hover:text-amber-500">
+              {city.name}
             </span>
           </div>
         ))}
