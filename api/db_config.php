@@ -1,4 +1,14 @@
 <?php
+// 1. Add CORS Headers (Essential for Vercel -> InfinityFree)
+header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
 /**
  * Simple .env loader
  */
@@ -27,22 +37,19 @@ function loadEnv($path)
     }
 }
 
-// Try to load .env from root directory (if local)
+// Try to load .env (Works locally)
 loadEnv(__DIR__ . '/../.env');
 
-// InfinityFree live credentials
-// We use !== false because getenv returns false if the variable doesn't exist, but an empty string is a valid password.
-define('DB_HOST', getenv('DB_HOST') !== false ? getenv('DB_HOST') : 'sql302.infinityfree.com');
-define('DB_USER', getenv('DB_USER') !== false ? getenv('DB_USER') : 'if0_41269050');
-define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'zakariabn123');
-define('DB_NAME', getenv('DB_NAME') !== false ? getenv('DB_NAME') : 'if0_41269050_XXX');
+// UPDATED FALLBACKS FOR INFINITYFREE
+define('DB_HOST', getenv('DB_HOST') ?: 'sql302.infinityfree.com');
+define('DB_USER', getenv('DB_USER') ?: 'if0_41269050');
+define('DB_PASS', getenv('DB_PASS') ?: 'zakariabn123');
+define('DB_NAME', getenv('DB_NAME') ?: 'if0_41269050_db_rental'); // Fixed this!
 define('DB_CHARSET', 'utf8mb4');
 
 function getDbConnection()
 {
     try {
-        // charset=utf8mb4 is the PDO equivalent of mysqli_set_charset($conn, "utf8mb4")
-        // It ensures all Arabic text and special characters are preserved
         $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -51,8 +58,12 @@ function getDbConnection()
         ];
         return new PDO($dsn, DB_USER, DB_PASS, $options);
     } catch (PDOException $e) {
-        header('HTTP/1.1 500 Internal Server Error');
-        echo json_encode(['error' => 'Database connection failed']);
+        // Log the real error for debugging (Remove after testing)
+        header('Content-Type: application/json', true, 500);
+        echo json_encode([
+            'error' => 'Database connection failed',
+            'details' => $e->getMessage()
+        ]);
         exit;
     }
 }
