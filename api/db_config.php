@@ -10,27 +10,32 @@ function loadEnv($path)
 
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue;
+        $line = trim($line);
+        if (strpos($line, '#') === 0 || empty($line)) continue;
 
-        list($name, $value) = explode('=', $line, 2);
-        $name = trim($name);
-        $value = trim($value);
+        if (strpos($line, '=') !== false) {
+            list($name, $value) = explode('=', $line, 2);
+            $name = trim($name);
+            $value = trim($value);
 
-        if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
-            putenv(sprintf('%s=%s', $name, $value));
-            $_ENV[$name] = $value;
-            $_SERVER[$name] = $value;
+            if (!empty($name)) {
+                putenv(sprintf('%s=%s', $name, $value));
+                $_ENV[$name] = $value;
+                $_SERVER[$name] = $value;
+            }
         }
     }
 }
 
-// Load .env from root directory
+// Try to load .env from root directory (if local)
 loadEnv(__DIR__ . '/../.env');
 
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
-define('DB_NAME', getenv('DB_NAME') ?: 'rental_car_db');
+// InfinityFree typically provides these via their dashboard
+// On InfinityFree, environment variables might be restricted, so we use define()
+define('DB_HOST', getenv('DB_HOST') ?: 'sqlXXX.epizy.com'); // Placeholder for InfinityFree hostname
+define('DB_USER', getenv('DB_USER') ?: 'epiz_34567890');    // Placeholder for InfinityFree username
+define('DB_PASS', getenv('DB_PASS') ?: '');                // Placeholder for InfinityFree password
+define('DB_NAME', getenv('DB_NAME') ?: 'epiz_34567890_db'); // Placeholder for InfinityFree database name
 
 /**
  * Get a connection to the database

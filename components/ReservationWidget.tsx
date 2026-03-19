@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { vehicles, Vehicle } from '../data/vehicles';
+import { callApi } from '../lib/api';
 
 interface ReservationWidgetProps {
     initialVehicle?: Vehicle | null;
@@ -68,19 +69,14 @@ const ReservationWidget: React.FC<ReservationWidgetProps> = ({ initialVehicle, s
         setStatus({ type: null, message: '' });
 
         try {
-            const response = await fetch('/api/save_reservation.php', {
+            const result = await callApi('/save_reservation.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
                 body: JSON.stringify({
                     ...formData,
                     car_id: selectedCar.id,
                     car_name: selectedCar.name
                 }),
             });
-
-            const result = await response.json();
 
             if (result.success) {
                 setStatus({ type: 'success', message: t('booking.success') });

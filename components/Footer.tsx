@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useSettings } from '../context/SettingsContext';
+import { callApi } from '../lib/api';
 
 interface FooterProps {
   onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact' | 'admin') => void;
@@ -76,13 +77,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     setStatus({ type: null, message: '' });
 
     try {
-      const response = await fetch('/api/subscribe_newsletter.php', {
+      const result = await callApi('/subscribe_newsletter.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
-      const result = await response.json();
       if (result.success) {
         setStatus({ type: 'success', message: result.message });
         setEmail('');

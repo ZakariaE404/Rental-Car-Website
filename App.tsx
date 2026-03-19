@@ -27,6 +27,7 @@ import TermsOfService from './components/TermsOfService';
 import { Vehicle } from './data/vehicles';
 import { useLanguage, LanguageProvider } from './context/LanguageContext';
 import { SettingsProvider } from './context/SettingsContext';
+import { callApi } from './lib/api';
 import LoadingScreen from './components/LoadingScreen';
 
 const App: React.FC = () => {
@@ -55,8 +56,7 @@ const App: React.FC = () => {
     // Check if admin is already logged in
     const checkAuth = async () => {
       try {
-        const response = await fetch('/api/admin/check_auth.php');
-        const data = await response.json();
+        const data = await callApi('/admin/check_auth.php');
         if (data.authenticated) {
           setIsAdminAuth(true);
           setAdminUsername(data.user.username);

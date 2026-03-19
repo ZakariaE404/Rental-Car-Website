@@ -1,10 +1,6 @@
 <?php
+require_once '../cors.php';
 session_start();
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { exit; }
-header("Content-Type: application/json");
 require_once '../db_config.php';
 
 if (!isset($_SESSION['admin_id'])) {
@@ -44,16 +40,12 @@ if ($file['size'] > $maxSize) {
     exit;
 }
 
-// Create uploads directory in public/ (for Vite dev server) and root (for production)
-$projectRoot = realpath(__DIR__ . '/../../');
-$publicUploadDir = $projectRoot . '/public/assets/uploads/';
-$rootUploadDir = $projectRoot . '/assets/uploads/';
+// Calculate project root
+$projectRoot = dirname(__DIR__, 2);
+$uploadDir = $projectRoot . '/assets/uploads/';
 
-if (!is_dir($publicUploadDir)) {
-    mkdir($publicUploadDir, 0755, true);
-}
-if (!is_dir($rootUploadDir)) {
-    mkdir($rootUploadDir, 0755, true);
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
 }
 
 // Generate unique filename

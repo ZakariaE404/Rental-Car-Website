@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useSettings } from '../context/SettingsContext';
+import { callApi } from '../lib/api';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
@@ -25,13 +26,11 @@ const Contact: React.FC = () => {
     setStatus({ type: null, message: '' });
 
     try {
-      const response = await fetch('/api/send_contact.php', {
+      const result = await callApi('/send_contact.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
       if (result.success) {
         setStatus({ type: 'success', message: t('contact.form.success') });
         setFormData({

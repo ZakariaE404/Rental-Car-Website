@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { callApi } from '../../lib/api';
 
 interface AdminLoginProps {
     onLoginSuccess: (username: string) => void;
@@ -16,13 +17,10 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
         setError('');
 
         try {
-            const response = await fetch('/api/admin/login.php', {
+            const data = await callApi('/admin/login.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
             });
-
-            const data = await response.json();
 
             if (data.success) {
                 onLoginSuccess(data.user.username);
