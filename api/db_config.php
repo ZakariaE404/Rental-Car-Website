@@ -31,10 +31,11 @@ function loadEnv($path)
 loadEnv(__DIR__ . '/../.env');
 
 // InfinityFree live credentials
-define('DB_HOST', getenv('DB_HOST') ?: 'sql302.infinityfree.com');
-define('DB_USER', getenv('DB_USER') ?: 'if0_41269050');
-define('DB_PASS', getenv('DB_PASS') ?: 'zakariabn123');
-define('DB_NAME', getenv('DB_NAME') ?: 'if0_41269050_XXX');
+// We use !== false because getenv returns false if the variable doesn't exist, but an empty string is a valid password.
+define('DB_HOST', getenv('DB_HOST') !== false ? getenv('DB_HOST') : 'sql302.infinityfree.com');
+define('DB_USER', getenv('DB_USER') !== false ? getenv('DB_USER') : 'if0_41269050');
+define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'zakariabn123');
+define('DB_NAME', getenv('DB_NAME') !== false ? getenv('DB_NAME') : 'if0_41269050_XXX');
 define('DB_CHARSET', 'utf8mb4');
 
 function getDbConnection()
