@@ -30,21 +30,19 @@ function loadEnv($path)
 // Try to load .env from root directory (if local)
 loadEnv(__DIR__ . '/../.env');
 
-// InfinityFree typically provides these via their dashboard
-// On InfinityFree, environment variables might be restricted, so we use define()
-define('DB_HOST', getenv('DB_HOST') ?: 'sqlXXX.epizy.com'); // Placeholder for InfinityFree hostname
-define('DB_USER', getenv('DB_USER') ?: 'epiz_34567890');    // Placeholder for InfinityFree username
-define('DB_PASS', getenv('DB_PASS') ?: '');                // Placeholder for InfinityFree password
-define('DB_NAME', getenv('DB_NAME') ?: 'epiz_34567890_db'); // Placeholder for InfinityFree database name
+// InfinityFree live credentials
+define('DB_HOST', getenv('DB_HOST') ?: 'sql302.infinityfree.com');
+define('DB_USER', getenv('DB_USER') ?: 'if0_41269050');
+define('DB_PASS', getenv('DB_PASS') ?: 'zakariabn123');
+define('DB_NAME', getenv('DB_NAME') ?: 'if0_41269050_XXX');
+define('DB_CHARSET', 'utf8mb4');
 
-/**
- * Get a connection to the database
- * @return PDO|null
- */
 function getDbConnection()
 {
     try {
-        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
+        // charset=utf8mb4 is the PDO equivalent of mysqli_set_charset($conn, "utf8mb4")
+        // It ensures all Arabic text and special characters are preserved
+        $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

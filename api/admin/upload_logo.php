@@ -45,21 +45,21 @@ $projectRoot = dirname(__DIR__, 2);
 $uploadDir = $projectRoot . '/assets/uploads/';
 
 if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
+    if (!mkdir($uploadDir, 0755, true)) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'Failed to create upload directory']);
+        exit;
+    }
 }
 
 // Generate unique filename
 $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
 $filename = 'brand_logo_' . time() . '.' . $ext;
 
-// Save to both locations (public for dev, root for production build)
-$publicDest = $publicUploadDir . $filename;
-$rootDest = $rootUploadDir . $filename;
+$uploadDest = $uploadDir . $filename;
 
-if (move_uploaded_file($file['tmp_name'], $publicDest)) {
-    // Copy to root assets too for production
-    copy($publicDest, $rootDest);
-    
+if (move_uploaded_file($file['tmp_name'], $uploadDest)) {
+    // URL relative to root for the database
     $logoUrl = '/assets/uploads/' . $filename;
 
     try {
