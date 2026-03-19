@@ -3,7 +3,7 @@
  * Professional CORS Header configuration for InfinityFree -> Vercel connection
  */
 
-$allowed_origin = getenv('FRONTEND_URL') ?: 'https://your-car-rental.vercel.app';
+$allowed_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '*';
 
 header("Access-Control-Allow-Origin: $allowed_origin");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
