@@ -1,6 +1,6 @@
 <?php
 // 1. Add CORS Headers (Essential for Vercel -> InfinityFree)
-header("Access-Control-Allow-Origin: *"); 
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 
@@ -21,7 +21,8 @@ function loadEnv($path)
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     foreach ($lines as $line) {
         $line = trim($line);
-        if (strpos($line, '#') === 0 || empty($line)) continue;
+        if (strpos($line, '#') === 0 || empty($line))
+            continue;
 
         if (strpos($line, '=') !== false) {
             list($name, $value) = explode('=', $line, 2);
@@ -44,7 +45,7 @@ loadEnv(__DIR__ . '/../.env');
 define('DB_HOST', getenv('DB_HOST') ?: 'sql302.infinityfree.com');
 define('DB_USER', getenv('DB_USER') ?: 'if0_41269050');
 define('DB_PASS', getenv('DB_PASS') ?: 'zakariabn123');
-define('DB_NAME', getenv('DB_NAME') ?: 'if0_41269050_db_rental'); // Fixed this!
+define('DB_NAME', getenv('DB_NAME') ?: 'if0_41269050_db_rental'); // if0_41269050_db_rental
 define('DB_CHARSET', 'utf8mb4');
 
 function getDbConnection()
