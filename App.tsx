@@ -81,7 +81,7 @@ const App: React.FC = () => {
     setCurrentPage('home');
   };
 
-  // If we are on the admin page, render entirely different layout
+    // If we are on the admin page, render entirely different layout
   if (currentPage === 'admin') {
     if (isAdminAuth) {
       return (
@@ -91,7 +91,7 @@ const App: React.FC = () => {
         </SettingsProvider>
       );
     }
-    return <AdminLogin onLoginSuccess={handleAdminLogin} />;
+    return <AdminLogin onLoginSuccess={handleAdminLogin} onGoHome={() => setCurrentPage('home')} />;
   }
 
   return (

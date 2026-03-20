@@ -3,9 +3,10 @@ import { callApi } from '../../lib/api';
 
 interface AdminLoginProps {
     onLoginSuccess: (username: string) => void;
+    onGoHome: () => void;
 }
 
-const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
+const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess, onGoHome }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -35,7 +36,16 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLoginSuccess }) => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 relative">
+            {/* Go Back Shortcut */}
+            <button 
+                onClick={onGoHome}
+                className="absolute top-8 left-8 flex items-center gap-2 px-4 py-2 bg-white rounded-xl shadow-sm border border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-all font-bold text-sm tracking-widest uppercase hover:scale-105"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Back to Website
+            </button>
+
             <div className="bg-white p-10 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] w-full max-w-md border border-slate-100">
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-black text-slate-900 tracking-tighter uppercase mb-2">Admin Portal</h1>

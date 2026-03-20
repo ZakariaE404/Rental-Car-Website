@@ -1,8 +1,9 @@
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { vehicles } from '../data/vehicles';
-import heroMobile from '../assets/hero-mobile.png';
-import heroDesktop from '../assets/hero-desktop.png';
+
+const heroMobile = '/assets/hero-mobile.png';
+const heroDesktop = '/assets/hero-desktop.png';
 
 interface HeroProps {
   onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact') => void;
