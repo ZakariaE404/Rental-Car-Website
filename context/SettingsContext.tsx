@@ -104,33 +104,14 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     const [loading, setLoading] = useState(true);
 
     const fetchSettings = async () => {
-        try {
-            const response = await fetch('/api/get_settings.php');
-            const result = await response.json();
-            if (result.success && result.data) {
-                const newSettings: AppSettings = {
-                    phone: result.data.phone || defaultSettings.phone,
-                    email: result.data.email || defaultSettings.email,
-                    brandName: result.data.brand_name || defaultSettings.brandName,
-                    brandColor: result.data.brand_color || defaultSettings.brandColor,
-                    logoUrl: result.data.logo_url || defaultSettings.logoUrl,
-                };
-                setSettings(newSettings);
-                injectBrandColors(newSettings.brandColor);
-            }
-        } catch (error) {
-            console.error('Failed to fetch app settings:', error);
-            // Still inject defaults
-            injectBrandColors(defaultSettings.brandColor);
-        } finally {
-            setLoading(false);
-        }
+        // We no longer fetch from an API
+        setLoading(false);
     };
 
     useEffect(() => {
-        // Inject defaults immediately so the page doesn't flash unstyled
+        // Inject defaults immediately
         injectBrandColors(defaultSettings.brandColor);
-        fetchSettings();
+        setLoading(false);
     }, []);
 
     return (

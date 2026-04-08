@@ -13,7 +13,7 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const { t } = useLanguage();
 
   return (
-    <section className="relative h-screen flex flex-col overflow-hidden bg-slate-950">
+    <section className="hero-container relative h-screen flex flex-col overflow-hidden bg-slate-950">
       {/* Cinematic Background */}
       <div className="absolute inset-0 z-0">
         {/* Mobile background (hidden on md+) */}
@@ -26,36 +26,35 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           className="hero-bg-desktop absolute inset-0 bg-cover bg-center scale-105 animate-[slow-zoom_20s_ease-in-out_infinite]"
           style={{ backgroundImage: `url(${heroDesktop})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950/90" />
-        <div className="absolute inset-0 bg-slate-950/20" />
+        <div className="absolute inset-0 hero-gradient-overlay" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-10 flex-grow container mx-auto px-6 md:px-12 flex flex-col justify-center items-center text-center pt-40 lg:pt-48 pb-20">
         <div className="max-w-5xl animate-in fade-in zoom-in duration-1000">
-          <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-lg text-white font-bold text-[10px] md:text-xs tracking-[0.4em] mb-8 shadow-sm uppercase">
-            <span className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(var(--brand-rgb),0.8)]"></span>
+          <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-lg text-white font-bold text-[10px] md:text-xs tracking-[0.4em] mb-10 shadow-sm uppercase">
+            <span className="w-2 h-2 rounded-full hero-dynamic-bg shadow-[0_0_8px_rgba(var(--brand-rgb),0.8)]"></span>
             {t('nav.rentCar').toUpperCase()} AU MAROC
           </div>
 
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[0.95] mb-8 tracking-tighter drop-shadow-2xl">
-            PREMIUM <span className="text-amber-500">DRIVE</span>
+          <h1 className="hero-premium-title text-6xl md:text-7xl lg:text-8xl text-white mb-10 drop-shadow-2xl">
+            PREMIUM <span className="hero-dynamic-text">DRIVE</span>
           </h1>
 
-          <p className="text-lg md:text-xl text-slate-200 font-medium mb-12 max-w-2xl mx-auto leading-relaxed opacity-90">
+          <p className="hero-subtitle text-lg md:text-2xl text-slate-200 font-medium mb-16 max-w-2xl mx-auto leading-relaxed opacity-90">
             {t('hero.subtitle')}
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mt-12 w-full">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mt-16 w-full">
             <button
               onClick={() => onNavigate('vehicles')}
-              className="w-full sm:w-auto px-12 py-5 bg-amber-500 hover:bg-white text-slate-950 font-black text-sm rounded-lg shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98] uppercase tracking-widest border border-amber-400/50"
+              className="hero-btn-primary w-full sm:w-auto px-12 py-5 text-slate-950 font-black text-sm uppercase tracking-widest"
             >
               EXPLORER LA FLOTTE
             </button>
             <button
               onClick={() => onNavigate('contact')}
-              className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 text-white border border-white/10 backdrop-blur-xl font-bold rounded-lg transition-all hover:border-amber-500/50 uppercase tracking-widest text-sm"
+              className="hero-btn-secondary w-full sm:w-auto px-10 py-5 bg-white/5 text-white border border-white/10 backdrop-blur-xl font-bold uppercase tracking-widest text-sm"
             >
               {t('hero.agency')}
             </button>
@@ -64,6 +63,57 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
       </div>
 
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+
+        .hero-gradient-overlay {
+          background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+          z-index: 1;
+        }
+
+        .hero-premium-title {
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: -1px;
+          line-height: 0.95;
+        }
+
+        .hero-dynamic-bg {
+          background-color: var(--brand-color, #f59e0b);
+        }
+
+        .hero-dynamic-text {
+          color: var(--brand-color, #f59e0b);
+        }
+
+        .hero-subtitle {
+          font-family: 'Inter', sans-serif;
+        }
+
+        .hero-btn-primary {
+          background-color: var(--brand-color, #f59e0b);
+          border-radius: 6px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+          background-color: #ffffff;
+        }
+
+        .hero-btn-secondary {
+          border-radius: 6px;
+          transition: all 0.3s ease;
+        }
+        
+        .hero-btn-secondary:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          border-color: rgba(var(--brand-rgb, 245, 158, 11), 0.5);
+        }
+
         @keyframes slow-zoom {
           0% { transform: scale(1); }
           50% { transform: scale(1.1); }

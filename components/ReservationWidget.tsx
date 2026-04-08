@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { vehicles, Vehicle } from '../data/vehicles';
-import { callApi } from '../lib/api';
+
 
 interface ReservationWidgetProps {
     initialVehicle?: Vehicle | null;
     showCarSelection?: boolean;
-    onBookingSuccess?: (whatsappUrl: string) => void;
 }
 
-const ReservationWidget: React.FC<ReservationWidgetProps> = ({ initialVehicle, showCarSelection = true, onBookingSuccess }) => {
+const ReservationWidget: React.FC<ReservationWidgetProps> = ({ initialVehicle, showCarSelection = true }) => {
     const { t } = useLanguage();
     const [selectedCar, setSelectedCar] = useState<Vehicle | null>(initialVehicle || null);
     const [formData, setFormData] = useState({
@@ -69,27 +68,33 @@ const ReservationWidget: React.FC<ReservationWidgetProps> = ({ initialVehicle, s
         setStatus({ type: null, message: '' });
 
         try {
-            const result = await callApi('/save_reservation.php', {
+            const postData = {
+                vehicle: selectedCar.name,
+                date_debut: formData.start_date,
+                date_fin: formData.end_date,
+                paiement: formData.payment_method,
+                nom: formData.user_name,
+                telephone: `'${formData.phone}`,
+                whatsapp: formData.whatsapp ? `'${formData.whatsapp}` : '',
+                email: formData.email
+            };
+
+            const response = await fetch('https://script.google.com/macros/s/AKfycbz8WI6WlP2rN9tCY1xiq7GRqlgYnPhx8r0RVXC-SgIKNY_yRPmqHYDGaLT5qh4US8Yx/exec', {
                 method: 'POST',
-                body: JSON.stringify({
-                    ...formData,
-                    car_id: selectedCar.id,
-                    car_name: selectedCar.name
-                }),
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8',
+                },
+                body: JSON.stringify(postData),
             });
 
-            if (result.success) {
+            // Even with text/plain, if it's successful we should get a JSON response
+            const result = await response.json();
+
+            if (result.result === 'success') {
                 setStatus({ type: 'success', message: t('booking.success') });
 
-                // --- Redirect to WhatsApp page ---
-                if (result.whatsapp_url && onBookingSuccess) {
-                    onBookingSuccess(result.whatsapp_url);
-                } else if (result.whatsapp_url) {
-                    // Fallback for homepage widget
-                    setTimeout(() => {
-                        window.location.href = result.whatsapp_url;
-                    }, 1500);
-                }
+                // Scroll to top of widget to show the success message clearly
+                window.scrollTo({ top: 0, behavior: 'smooth' });
 
                 setFormData({
                     start_date: '',
@@ -103,7 +108,7 @@ const ReservationWidget: React.FC<ReservationWidgetProps> = ({ initialVehicle, s
                     whatsapp: ''
                 });
             } else {
-                setStatus({ type: 'error', message: result.message || t('booking.error') });
+                setStatus({ type: 'error', message: result.error || t('booking.error') });
             }
         } catch (error) {
             setStatus({ type: 'error', message: t('booking.error') });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useSettings } from '../context/SettingsContext';
-import { callApi } from '../lib/api';
+
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
@@ -26,12 +26,25 @@ const Contact: React.FC = () => {
     setStatus({ type: null, message: '' });
 
     try {
-      const result = await callApi('/send_contact.php', {
+      const postData = {
+        name: formData.name,
+        email: formData.email,
+        phone: `'${formData.phone}`, // To preserve leading zero
+        subject: formData.subject,
+        message: formData.message
+      };
+
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxM4dksbJ4dwpouiWWo8_kjAqNi98BxnQxAcyDbWhn-cBj_eWjQKZpb9cHMkpPQbKCzWQ/exec', {
         method: 'POST',
-        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(postData),
       });
 
-      if (result.success) {
+      const result = await response.json();
+
+      if (result.status === 'success') {
         setStatus({ type: 'success', message: t('contact.form.success') });
         setFormData({
           name: '',
@@ -41,7 +54,7 @@ const Contact: React.FC = () => {
           message: ''
         });
       } else {
-        setStatus({ type: 'error', message: result.message });
+        setStatus({ type: 'error', message: result.error || 'Error sending message' });
       }
     } catch (error) {
       setStatus({ type: 'error', message: t('booking.error') });

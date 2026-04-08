@@ -17,82 +17,31 @@ import Contact from './components/Contact';
 import ReservationWidget from './components/ReservationWidget';
 import Marquee from './components/Marquee';
 import LocationSection from './components/LocationSection';
-import Dashboard from './components/admin/Dashboard';
-import AdminLogin from './components/admin/AdminLogin';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
-import BookingSuccess from './components/BookingSuccess';
 import BookingPage from './components/BookingPage';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import { Vehicle } from './data/vehicles';
 import { useLanguage, LanguageProvider } from './context/LanguageContext';
 import { SettingsProvider } from './context/SettingsContext';
-import { callApi } from './lib/api';
 import LoadingScreen from './components/LoadingScreen';
 
 const App: React.FC = () => {
   const { t } = useLanguage();
-  const [currentPage, setCurrentPage] = useState<'home' | 'vehicles' | 'about' | 'blog' | 'contact' | 'booking' | 'booking-success' | 'admin' | 'privacy' | 'terms'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'vehicles' | 'about' | 'blog' | 'contact' | 'booking' | 'privacy' | 'terms'>('home');
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
-  const [whatsappUrl, setWhatsappUrl] = useState<string>('');
   const [showLoader, setShowLoader] = useState(true);
 
-  // Admin State
-  const [isAdminAuth, setIsAdminAuth] = useState(false);
-  const [adminUsername, setAdminUsername] = useState('');
-
-  const handleNavigate = (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact' | 'booking' | 'admin' | 'privacy' | 'terms', vehicle: Vehicle | null = null) => {
+  const handleNavigate = (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact' | 'booking' | 'privacy' | 'terms', vehicle: Vehicle | null = null) => {
     if (vehicle) {
       setSelectedVehicle(vehicle);
     }
-    setCurrentPage(page);
+    setCurrentPage(page as any);
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPage]);
-
-  useEffect(() => {
-    // Check if admin is already logged in
-    const checkAuth = async () => {
-      try {
-        const data = await callApi('/admin/check_auth.php');
-        if (data.authenticated) {
-          setIsAdminAuth(true);
-          setAdminUsername(data.user.username);
-        }
-      } catch (err) {
-        console.error("Auth check failed");
-      }
-    };
-    checkAuth();
-  }, []);
-
-  const handleAdminLogin = (username: string) => {
-    setIsAdminAuth(true);
-    setAdminUsername(username);
-  };
-
-  const handleAdminLogout = async () => {
-    setIsAdminAuth(false);
-    setAdminUsername('');
-    // In a real app we'd also call a logout.php endpoint to destroy the session here.
-    // For now, this just clears the UI state.
-    setCurrentPage('home');
-  };
-
-    // If we are on the admin page, render entirely different layout
-  if (currentPage === 'admin') {
-    if (isAdminAuth) {
-      return (
-        <SettingsProvider>
-          {showLoader && <LoadingScreen onComplete={() => setShowLoader(false)} />}
-          <Dashboard username={adminUsername} onLogout={handleAdminLogout} />
-        </SettingsProvider>
-      );
-    }
-    return <AdminLogin onLoginSuccess={handleAdminLogin} onGoHome={() => setCurrentPage('home')} />;
-  }
 
   return (
     <SettingsProvider>
@@ -131,12 +80,7 @@ const App: React.FC = () => {
                         </div>
                       </div>
                       <div className="p-4 md:p-8 bg-white">
-                        <ReservationWidget
-                          onBookingSuccess={(url) => {
-                            setWhatsappUrl(url);
-                            setCurrentPage('booking-success');
-                          }}
-                        />
+                        <ReservationWidget />
                       </div>
                     </div>
                   </div>
@@ -173,19 +117,7 @@ const App: React.FC = () => {
             <Contact />
           )}
           {currentPage === 'booking' && (
-            <BookingPage
-              selectedVehicle={selectedVehicle}
-              onBookingSuccess={(url) => {
-                setWhatsappUrl(url);
-                setCurrentPage('booking-success');
-              }}
-            />
-          )}
-          {currentPage === 'booking-success' && (
-            <BookingSuccess
-              whatsappUrl={whatsappUrl}
-              onNavigate={(page) => handleNavigate(page as any)}
-            />
+            <BookingPage selectedVehicle={selectedVehicle} />
           )}
           {currentPage === 'privacy' && (
             <PrivacyPolicy />

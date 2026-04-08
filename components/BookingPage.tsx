@@ -5,10 +5,9 @@ import { useLanguage } from '../context/LanguageContext';
 
 interface BookingPageProps {
     selectedVehicle: Vehicle | null;
-    onBookingSuccess?: (whatsappUrl: string) => void;
 }
 
-const BookingPage: React.FC<BookingPageProps> = ({ selectedVehicle, onBookingSuccess }) => {
+const BookingPage: React.FC<BookingPageProps> = ({ selectedVehicle }) => {
     const { t } = useLanguage();
 
     return (
@@ -44,7 +43,6 @@ const BookingPage: React.FC<BookingPageProps> = ({ selectedVehicle, onBookingSuc
                             <ReservationWidget
                                 initialVehicle={selectedVehicle}
                                 showCarSelection={!selectedVehicle}
-                                onBookingSuccess={onBookingSuccess}
                             />
                         </div>
                     </div>

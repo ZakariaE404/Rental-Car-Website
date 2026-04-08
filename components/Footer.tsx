@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useSettings } from '../context/SettingsContext';
-import { callApi } from '../lib/api';
+
 
 interface FooterProps {
-  onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact' | 'admin') => void;
+  onNavigate: (page: 'home' | 'vehicles' | 'about' | 'blog' | 'contact') => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
@@ -77,16 +77,21 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     setStatus({ type: null, message: '' });
 
     try {
-      const result = await callApi('/subscribe_newsletter.php', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbymVlRDoX4mHwejP61SX19OC55PD6wAr_3_ANbFrBhRPsjrBSJ4BXf5u4Lb-HcfbHqpvg/exec', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
         body: JSON.stringify({ email }),
       });
 
-      if (result.success) {
-        setStatus({ type: 'success', message: result.message });
+      const result = await response.json();
+
+      if (result.status === 'success') {
+        setStatus({ type: 'success', message: 'Subscribed successfully' });
         setEmail('');
       } else {
-        setStatus({ type: 'error', message: result.message });
+        setStatus({ type: 'error', message: result.error || 'Subscription error' });
       }
     } catch (error) {
       setStatus({ type: 'error', message: t('booking.error') });
@@ -232,15 +237,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <button onClick={() => onNavigate('privacy')} className="text-[10px] font-bold uppercase tracking-widest text-slate-500 transition-colors" onMouseEnter={(e) => (e.currentTarget.style.color = settings.brandColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '')}>Politique de Confidentialité</button>
             <button onClick={() => onNavigate('terms')} className="text-[10px] font-bold uppercase tracking-widest text-slate-500 transition-colors" onMouseEnter={(e) => (e.currentTarget.style.color = settings.brandColor)} onMouseLeave={(e) => (e.currentTarget.style.color = '')}>Conditions Générales</button>
 
-            <button
-              onClick={() => onNavigate('admin')}
-              className="text-[10px] font-bold uppercase tracking-widest text-slate-700 transition-colors"
-              onMouseEnter={(e) => (e.currentTarget.style.color = settings.brandColor)}
-              onMouseLeave={(e) => (e.currentTarget.style.color = '')}
-              title="Admin Dashboard"
-            >
-              {t('footer.privacy') === 'Intimité' ? 'Administration' : 'Admin'}
-            </button>
+
 
             <div className="hidden md:block w-px h-4 bg-slate-800"></div>
             <p className="text-[10px] font-bold uppercase tracking-widest text-slate-700">{settings.brandName} Ecosystem</p>
